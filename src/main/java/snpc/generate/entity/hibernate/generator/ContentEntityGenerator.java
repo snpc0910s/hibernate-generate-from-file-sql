@@ -18,10 +18,16 @@ public class ContentEntityGenerator implements IContentGenerator {
 		buffer.append("import java.util.Date;\n");
 		buffer.append("import javax.persistence.Column;\n");
 		buffer.append("import javax.persistence.Entity;\n");
-		buffer.append("import javax.persistence.GeneratedValue;\n");
-		buffer.append("import javax.persistence.GenerationType;\n");
-		buffer.append("import javax.persistence.Id;\n");
 		buffer.append("import javax.persistence.Table;\n");
+		if(entity.isSingleKey() == false) {
+			buffer.append("import java.io.Serializable;\n");
+			buffer.append("import javax.persistence.Embeddable;\n");
+			buffer.append("import javax.persistence.EmbeddedId;\n");
+		}else {
+			buffer.append("import javax.persistence.GeneratedValue;\n");
+			buffer.append("import javax.persistence.GenerationType;\n");
+			buffer.append("import javax.persistence.Id;\n");
+		}
 		buffer.append("\n");
 		buffer.append("@Entity\n");
 		buffer.append("@Table(name = \"" + entity.getNameTable() + "\")\n");
@@ -60,7 +66,13 @@ public class ContentEntityGenerator implements IContentGenerator {
 		buffer.append("\n");
 		buffer.append("	// getter and setter\n");
 		for (PropertiesStruct property : entity.getProperties()) {
-			buffer.append(property.genGetterAndSetter(1));
+			if(entity.isSingleKey() == true) {
+				buffer.append(property.genGetterAndSetter(1));				
+			}else {
+				if(property.isKey() == false) {
+					buffer.append(property.genGetterAndSetter(1));
+				}
+			}
 		}
 		if (entity.isSingleKey() == false) {
 			buffer.append("    public " + entity.getNameClass() + "Id getId() {\n");

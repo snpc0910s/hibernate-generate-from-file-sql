@@ -12,7 +12,8 @@ public class EntityStruct {
 	private List<String> fullData = new ArrayList<>();
 	private List<PropertiesStruct> properties = new ArrayList<>();
 	private List<String> constraints = new ArrayList<>();
-	
+	private List<PropertiesStruct> extendProperties = new ArrayList<>();
+
 	public void appendProperties(PropertiesStruct property) {
 		this.properties.add(property);
 	}
@@ -56,7 +57,7 @@ public class EntityStruct {
 	public void setProperties(List<PropertiesStruct> properties) {
 		this.properties = properties;
 	}
-	
+
 	public int getNo() {
 		return no;
 	}
@@ -64,13 +65,21 @@ public class EntityStruct {
 	public void setNo(int no) {
 		this.no = no;
 	}
-	
+
 	public List<String> getConstraints() {
 		return constraints;
 	}
 
 	public void setConstraints(List<String> constraints) {
 		this.constraints = constraints;
+	}
+
+	public List<PropertiesStruct> getExtendProperties() {
+		return extendProperties;
+	}
+
+	public void setExtendProperties(List<PropertiesStruct> extendProperties) {
+		this.extendProperties = extendProperties;
 	}
 
 	@Override
@@ -84,7 +93,7 @@ public class EntityStruct {
 //		for (String line : this.fullData) {
 //			buffer.append(line + "\n");
 //		}
-		for(PropertiesStruct pro : this.properties) {
+		for (PropertiesStruct pro : this.properties) {
 			buffer.append(pro.toString());
 		}
 		return buffer.toString();
