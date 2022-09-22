@@ -5,6 +5,31 @@ import snpc.generate.entity.hibernate.model.PropertiesStruct;
 
 public class ContentRepoGenerator implements IContentGenerator {
 
+	/*
+	package com.example.demo.repo;
+
+	import org.springframework.data.jpa.repository.JpaRepository;
+	import org.springframework.stereotype.Repository;
+
+	import com.example.demo.entity.Actor;
+
+	@Repository
+	public interface ActorRepo extends JpaRepository<Actor,Integer>{
+	}
+	*/
+	/*
+	package com.example.demo.repo;
+
+	import org.springframework.data.jpa.repository.JpaRepository;
+	import org.springframework.stereotype.Repository;
+
+	import com.example.demo.entity.FilmCategory;
+	import com.example.demo.entity.FilmCategory.FilmCategoryId;
+
+	@Repository
+	public interface FilmCategoryRepo extends JpaRepository<FilmCategory,FilmCategoryId>{
+	}
+	*/
 	@Override
 	public String gen(String basePackage, EntityStruct entity) {
 

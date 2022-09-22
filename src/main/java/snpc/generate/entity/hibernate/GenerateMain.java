@@ -39,16 +39,20 @@ public class GenerateMain {
 		 */
 		List<String> taskExports = new ArrayList<>();
 		taskExports.add(TASK_ENTITY);
-		taskExports.add(TASK_DTO);
-		taskExports.add(TASK_REPO);
-		taskExports.add(TASK_I_SERVICES);
-		taskExports.add(TASK_SERVICES);
-		taskExports.add(TASK_CONTROLLER);
+//		taskExports.add(TASK_DTO);
+//		taskExports.add(TASK_REPO);
+//		taskExports.add(TASK_I_SERVICES);
+//		taskExports.add(TASK_SERVICES);
+//		taskExports.add(TASK_CONTROLLER);
 
 		/**
-		 * PREPROCESSING NOTE: current support only file sql export from mysql workbench
+		 * PREPROCESSING NOTE: current support only file sql export from mysql workbench. If you want change please read code :D
 		 */
 		List<String> lines = PreprocessFileUtil.preprocessFileSQL(urlFileSQL);
+//		SEE FILE resource/file-sql-after-preprocessing.txt
+//		for(String line: lines) {
+//			System.out.println(line);
+//		}
 		List<EntityStruct> entites = ModelGenerator.generateFromMySql(lines);
 
 		IContentGenerator generator = null;
@@ -82,8 +86,8 @@ public class GenerateMain {
 				break;
 			case TASK_SERVICES:
 				generator = new ContentServiceGenerator();
-				urlFolderContent += "\\" + TASK_SERVICES;
-				suffixNameFile = "Service";
+				urlFolderContent += "\\" + TASK_SERVICES + "\\impl";
+				suffixNameFile = "ServiceImpl";
 				break;
 			case TASK_CONTROLLER:
 				generator = new ContentBasicApiGenerator();
@@ -101,15 +105,15 @@ public class GenerateMain {
 			System.out.println();
 			System.out.println("----------------------------------"+generator.getClass().getSimpleName()+"------------------------------------------------");
 			for (EntityStruct entity : entites) {
+				System.out.println(entity.toString());
 				String content = generator.gen(basePackage, entity);
 				if (content == null || content.equals("")) {
-					System.out.println("Entity name = " + entity.getNameClass() + ", Generator class = "
-							+ generator.getClass().getSimpleName() + "  -- Empty content");
+					System.out.println("Entity name = " + entity.getNameClass() + ", Generator class = "+ generator.getClass().getSimpleName() + "  -- Empty content");
 					continue;
 				}
 				String nameFile = prefixNameFile + entity.getNameClass() + suffixNameFile + ".java";
-				ExportFileUtil.exportDataToFolder(urlFolderContent, nameFile, content);
-				// System.out.println(content);
+//				ExportFileUtil.exportDataToFolder(urlFolderContent, nameFile, content);
+//				System.out.println(content);
 			}
 			// 3. reset generator
 			generator = null;
@@ -117,6 +121,7 @@ public class GenerateMain {
 			suffixNameFile = "";
 		}
 
-		System.out.println("============ OK ============");
+//		System.out.println("============ OK ============");
+//		System.out.println(urlFolder);
 	}
 }

@@ -66,6 +66,7 @@ public class ModelGenerator {
 			if (line.startsWith("CONSTRAINT")) {
 				// tam thoi bo qua. phai tao stack roi add sau
 				mapConstraint.put(currentTable, line);
+				mapResult.get(currentTable).getFullData().add(line);
 				continue;
 			}
 

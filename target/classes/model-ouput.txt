@@ -1,0 +1,973 @@
+
+----------------------------------ContentEntityGenerator------------------------------------------------
+======================= No: 1 ==================================
+Table name: actor
+Class name: Actor
+Single key: true
+Properties:
+    --------------
+    Full line: actor_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: actorId
+        Name column: actor_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: first_name varchar(45) NOT NULL
+    Key: false
+    Name property: firstName
+        Name column: first_name
+    Type property: String
+        Type column: varchar(45)
+    Have relationship: false
+    --------------
+    Full line: last_name varchar(45) NOT NULL
+    Key: false
+    Name property: lastName
+        Name column: last_name
+    Type property: String
+        Type column: varchar(45)
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    actor_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    first_name varchar(45) NOT NULL,
+    last_name varchar(45) NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (actor_id)
+
+======================= No: 2 ==================================
+Table name: address
+Class name: Address
+Single key: true
+Properties:
+    --------------
+    Full line: address_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: addressId
+        Name column: address_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: address varchar(50) NOT NULL
+    Key: false
+    Name property: address
+        Name column: address
+    Type property: String
+        Type column: varchar(50)
+    Have relationship: false
+    --------------
+    Full line: address2 varchar(50) DEFAULT NULL
+    Key: false
+    Name property: address2
+        Name column: address2
+    Type property: String
+        Type column: varchar(50)
+    Have relationship: false
+    --------------
+    Full line: district varchar(20) NOT NULL
+    Key: false
+    Name property: district
+        Name column: district
+    Type property: String
+        Type column: varchar(20)
+    Have relationship: false
+    --------------
+    Full line: city_id smallint unsigned NOT NULL
+    Key: false
+    Name property: cityId
+        Name column: city_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: true
+        Foregin: fk_address_city : table = city column = city_id
+    --------------
+    Full line: postal_code varchar(10) DEFAULT NULL
+    Key: false
+    Name property: postalCode
+        Name column: postal_code
+    Type property: String
+        Type column: varchar(10)
+    Have relationship: false
+    --------------
+    Full line: phone varchar(20) NOT NULL
+    Key: false
+    Name property: phone
+        Name column: phone
+    Type property: String
+        Type column: varchar(20)
+    Have relationship: false
+    --------------
+    Full line: location geometry NOT NULL
+    Key: false
+    Name property: location
+        Name column: location
+    Type property: String
+        Type column: geometry
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    address_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    address varchar(50) NOT NULL,
+    address2 varchar(50) DEFAULT NULL,
+    district varchar(20) NOT NULL,
+    city_id smallint unsigned NOT NULL,
+    postal_code varchar(10) DEFAULT NULL,
+    phone varchar(20) NOT NULL,
+    location geometry NOT NULL 
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (address_id)
+    CONSTRAINT fk_address_city FOREIGN KEY (city_id) REFERENCES city (city_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 3 ==================================
+Table name: category
+Class name: Category
+Single key: true
+Properties:
+    --------------
+    Full line: category_id tinyint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: categoryId
+        Name column: category_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: name varchar(25) NOT NULL
+    Key: false
+    Name property: name
+        Name column: name
+    Type property: String
+        Type column: varchar(25)
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    category_id tinyint unsigned NOT NULL AUTO_INCREMENT,
+    name varchar(25) NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (category_id
+
+======================= No: 4 ==================================
+Table name: city
+Class name: City
+Single key: true
+Properties:
+    --------------
+    Full line: city_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: cityId
+        Name column: city_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: city varchar(50) NOT NULL
+    Key: false
+    Name property: city
+        Name column: city
+    Type property: String
+        Type column: varchar(50)
+    Have relationship: false
+    --------------
+    Full line: country_id smallint unsigned NOT NULL
+    Key: false
+    Name property: countryId
+        Name column: country_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: true
+        Foregin: fk_city_country : table = country column = country_id
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    city_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    city varchar(50) NOT NULL,
+    country_id smallint unsigned NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (city_id)
+    CONSTRAINT fk_city_country FOREIGN KEY (country_id) REFERENCES country (country_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 5 ==================================
+Table name: country
+Class name: Country
+Single key: true
+Properties:
+    --------------
+    Full line: country_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: countryId
+        Name column: country_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: country varchar(50) NOT NULL
+    Key: false
+    Name property: country
+        Name column: country
+    Type property: String
+        Type column: varchar(50)
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    country_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    country varchar(50) NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (country_id
+
+======================= No: 6 ==================================
+Table name: customer
+Class name: Customer
+Single key: true
+Properties:
+    --------------
+    Full line: customer_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: customerId
+        Name column: customer_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: store_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: storeId
+        Name column: store_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_customer_store : table = store column = store_id
+    --------------
+    Full line: first_name varchar(45) NOT NULL
+    Key: false
+    Name property: firstName
+        Name column: first_name
+    Type property: String
+        Type column: varchar(45)
+    Have relationship: false
+    --------------
+    Full line: last_name varchar(45) NOT NULL
+    Key: false
+    Name property: lastName
+        Name column: last_name
+    Type property: String
+        Type column: varchar(45)
+    Have relationship: false
+    --------------
+    Full line: email varchar(50) DEFAULT NULL
+    Key: false
+    Name property: email
+        Name column: email
+    Type property: String
+        Type column: varchar(50)
+    Have relationship: false
+    --------------
+    Full line: address_id smallint unsigned NOT NULL
+    Key: false
+    Name property: addressId
+        Name column: address_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: active tinyint(1) NOT NULL DEFAULT '1'
+    Key: false
+    Name property: active
+        Name column: active
+    Type property: Boolean
+        Type column: tinyint(1)
+    Have relationship: false
+    --------------
+    Full line: create_date datetime NOT NULL
+    Key: false
+    Name property: createDate
+        Name column: create_date
+    Type property: Date
+        Type column: datetime
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    customer_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    store_id tinyint unsigned NOT NULL,
+    first_name varchar(45) NOT NULL,
+    last_name varchar(45) NOT NULL,
+    email varchar(50) DEFAULT NULL,
+    address_id smallint unsigned NOT NULL,
+    active tinyint(1) NOT NULL DEFAULT '1',
+    create_date datetime NOT NULL,
+    last_update timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (customer_id)
+    CONSTRAINT fk_customer_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_customer_store FOREIGN KEY (store_id) REFERENCES store (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 7 ==================================
+Table name: film
+Class name: Film
+Single key: true
+Properties:
+    --------------
+    Full line: film_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: filmId
+        Name column: film_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: title varchar(128) NOT NULL
+    Key: false
+    Name property: title
+        Name column: title
+    Type property: String
+        Type column: varchar(128)
+    Have relationship: false
+    --------------
+    Full line: description text
+    Key: false
+    Name property: description
+        Name column: description
+    Type property: String
+        Type column: text
+    Have relationship: false
+    --------------
+    Full line: release_year year DEFAULT NULL
+    Key: false
+    Name property: releaseYear
+        Name column: release_year
+    Type property: Integer
+        Type column: year
+    Have relationship: false
+    --------------
+    Full line: language_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: languageId
+        Name column: language_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: original_language_id tinyint unsigned DEFAULT NULL
+    Key: false
+    Name property: originalLanguageId
+        Name column: original_language_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_film_language_original : table = language column = language_id
+    --------------
+    Full line: rental_duration tinyint unsigned NOT NULL DEFAULT '3'
+    Key: false
+    Name property: rentalDuration
+        Name column: rental_duration
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: rental_rate decimal(4,2) NOT NULL DEFAULT '4.99'
+    Key: false
+    Name property: rentalRate
+        Name column: rental_rate
+    Type property: Double
+        Type column: decimal(4,2)
+    Have relationship: false
+    --------------
+    Full line: length smallint unsigned DEFAULT NULL
+    Key: false
+    Name property: length
+        Name column: length
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: replacement_cost decimal(5,2) NOT NULL DEFAULT '19.99'
+    Key: false
+    Name property: replacementCost
+        Name column: replacement_cost
+    Type property: Double
+        Type column: decimal(5,2)
+    Have relationship: false
+    --------------
+    Full line: rating enum('G','PG','PG-13','R','NC-17') DEFAULT 'G'
+    Key: false
+    Name property: rating
+        Name column: rating
+    Type property: String
+        Type column: enum('G','PG','PG-13','R','NC-17')
+    Have relationship: false
+    --------------
+    Full line: special_features set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') DEFAULT NULL
+    Key: false
+    Name property: specialFeatures
+        Name column: special_features
+    Type property: String
+        Type column: set('Trailers','Commentaries','Deleted
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    film_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    title varchar(128) NOT NULL,
+    description text,
+    release_year year DEFAULT NULL,
+    language_id tinyint unsigned NOT NULL,
+    original_language_id tinyint unsigned DEFAULT NULL,
+    rental_duration tinyint unsigned NOT NULL DEFAULT '3',
+    rental_rate decimal(4,2) NOT NULL DEFAULT '4.99',
+    length smallint unsigned DEFAULT NULL,
+    replacement_cost decimal(5,2) NOT NULL DEFAULT '19.99',
+    rating enum('G','PG','PG-13','R','NC-17') DEFAULT 'G',
+    special_features set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') DEFAULT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (film_id)
+    CONSTRAINT fk_film_language FOREIGN KEY (language_id) REFERENCES language (language_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_film_language_original FOREIGN KEY (original_language_id) REFERENCES language (language_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 8 ==================================
+Table name: film_actor
+Class name: FilmActor
+Single key: false
+Properties:
+    --------------
+    Full line: actor_id smallint unsigned NOT NULL
+    Key: true
+    Name property: actorId
+        Name column: actor_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: film_id smallint unsigned NOT NULL
+    Key: true
+    Name property: filmId
+        Name column: film_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: true
+        Foregin: fk_film_actor_film : table = film column = film_id
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    actor_id smallint unsigned NOT NULL,
+    film_id smallint unsigned NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (actor_id,film_id)
+    CONSTRAINT fk_film_actor_actor FOREIGN KEY (actor_id) REFERENCES actor (actor_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_film_actor_film FOREIGN KEY (film_id) REFERENCES film (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 9 ==================================
+Table name: film_category
+Class name: FilmCategory
+Single key: false
+Properties:
+    --------------
+    Full line: film_id smallint unsigned NOT NULL
+    Key: true
+    Name property: filmId
+        Name column: film_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: true
+        Foregin: fk_film_category_film : table = film column = film_id
+    --------------
+    Full line: category_id tinyint unsigned NOT NULL
+    Key: true
+    Name property: categoryId
+        Name column: category_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    film_id smallint unsigned NOT NULL,
+    category_id tinyint unsigned NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (film_id,category_id)
+    CONSTRAINT fk_film_category_category FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_film_category_film FOREIGN KEY (film_id) REFERENCES film (film_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 10 ==================================
+Table name: film_text
+Class name: FilmText
+Single key: true
+Properties:
+    --------------
+    Full line: film_id smallint NOT NULL
+    Key: true
+    Name property: filmId
+        Name column: film_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: title varchar(255) NOT NULL
+    Key: false
+    Name property: title
+        Name column: title
+    Type property: String
+        Type column: varchar(255)
+    Have relationship: false
+    --------------
+    Full line: description text
+    Key: false
+    Name property: description
+        Name column: description
+    Type property: String
+        Type column: text
+    Have relationship: false
+Data sql:
+    film_id smallint NOT NULL,
+    title varchar(255) NOT NULL,
+    description text,
+    PRIMARY KEY (film_id)
+
+======================= No: 11 ==================================
+Table name: inventory
+Class name: Inventory
+Single key: true
+Properties:
+    --------------
+    Full line: inventory_id mediumint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: inventoryId
+        Name column: inventory_id
+    Type property: Integer
+        Type column: mediumint
+    Have relationship: false
+    --------------
+    Full line: film_id smallint unsigned NOT NULL
+    Key: false
+    Name property: filmId
+        Name column: film_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: store_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: storeId
+        Name column: store_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_inventory_store : table = store column = store_id
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    inventory_id mediumint unsigned NOT NULL AUTO_INCREMENT,
+    film_id smallint unsigned NOT NULL,
+    store_id tinyint unsigned NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (inventory_id)
+    CONSTRAINT fk_inventory_film FOREIGN KEY (film_id) REFERENCES film (film_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_inventory_store FOREIGN KEY (store_id) REFERENCES store (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 12 ==================================
+Table name: language
+Class name: Language
+Single key: true
+Properties:
+    --------------
+    Full line: language_id tinyint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: languageId
+        Name column: language_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: name char(20) NOT NULL
+    Key: false
+    Name property: name
+        Name column: name
+    Type property: String
+        Type column: char(20)
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    language_id tinyint unsigned NOT NULL AUTO_INCREMENT,
+    name char(20) NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (language_id
+
+======================= No: 13 ==================================
+Table name: payment
+Class name: Payment
+Single key: true
+Properties:
+    --------------
+    Full line: payment_id smallint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: paymentId
+        Name column: payment_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: customer_id smallint unsigned NOT NULL
+    Key: false
+    Name property: customerId
+        Name column: customer_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: staff_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: staffId
+        Name column: staff_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_payment_staff : table = staff column = staff_id
+    --------------
+    Full line: rental_id int DEFAULT NULL
+    Key: false
+    Name property: rentalId
+        Name column: rental_id
+    Type property: Integer
+        Type column: int
+    Have relationship: false
+    --------------
+    Full line: amount decimal(5,2) NOT NULL
+    Key: false
+    Name property: amount
+        Name column: amount
+    Type property: Double
+        Type column: decimal(5,2)
+    Have relationship: false
+    --------------
+    Full line: payment_date datetime NOT NULL
+    Key: false
+    Name property: paymentDate
+        Name column: payment_date
+    Type property: Date
+        Type column: datetime
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    payment_id smallint unsigned NOT NULL AUTO_INCREMENT,
+    customer_id smallint unsigned NOT NULL,
+    staff_id tinyint unsigned NOT NULL,
+    rental_id int DEFAULT NULL,
+    amount decimal(5,2) NOT NULL,
+    payment_date datetime NOT NULL,
+    last_update timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (payment_id)
+    CONSTRAINT fk_payment_customer FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_payment_rental FOREIGN KEY (rental_id) REFERENCES rental (rental_id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_payment_staff FOREIGN KEY (staff_id) REFERENCES staff (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 14 ==================================
+Table name: rental
+Class name: Rental
+Single key: true
+Properties:
+    --------------
+    Full line: rental_id int NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: rentalId
+        Name column: rental_id
+    Type property: Integer
+        Type column: int
+    Have relationship: false
+    --------------
+    Full line: rental_date datetime NOT NULL
+    Key: false
+    Name property: rentalDate
+        Name column: rental_date
+    Type property: Date
+        Type column: datetime
+    Have relationship: false
+    --------------
+    Full line: inventory_id mediumint unsigned NOT NULL
+    Key: false
+    Name property: inventoryId
+        Name column: inventory_id
+    Type property: Integer
+        Type column: mediumint
+    Have relationship: false
+    --------------
+    Full line: customer_id smallint unsigned NOT NULL
+    Key: false
+    Name property: customerId
+        Name column: customer_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: return_date datetime DEFAULT NULL
+    Key: false
+    Name property: returnDate
+        Name column: return_date
+    Type property: Date
+        Type column: datetime
+    Have relationship: false
+    --------------
+    Full line: staff_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: staffId
+        Name column: staff_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_rental_staff : table = staff column = staff_id
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    rental_id int NOT NULL AUTO_INCREMENT,
+    rental_date datetime NOT NULL,
+    inventory_id mediumint unsigned NOT NULL,
+    customer_id smallint unsigned NOT NULL,
+    return_date datetime DEFAULT NULL,
+    staff_id tinyint unsigned NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (rental_id)
+    CONSTRAINT fk_rental_customer FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_rental_inventory FOREIGN KEY (inventory_id) REFERENCES inventory (inventory_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_rental_staff FOREIGN KEY (staff_id) REFERENCES staff (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 15 ==================================
+Table name: staff
+Class name: Staff
+Single key: true
+Properties:
+    --------------
+    Full line: staff_id tinyint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: staffId
+        Name column: staff_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: first_name varchar(45) NOT NULL
+    Key: false
+    Name property: firstName
+        Name column: first_name
+    Type property: String
+        Type column: varchar(45)
+    Have relationship: false
+    --------------
+    Full line: last_name varchar(45) NOT NULL
+    Key: false
+    Name property: lastName
+        Name column: last_name
+    Type property: String
+        Type column: varchar(45)
+    Have relationship: false
+    --------------
+    Full line: address_id smallint unsigned NOT NULL
+    Key: false
+    Name property: addressId
+        Name column: address_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: picture blob
+    Key: false
+    Name property: picture
+        Name column: picture
+    Type property: byte[]
+        Type column: blob
+    Have relationship: false
+    --------------
+    Full line: email varchar(50) DEFAULT NULL
+    Key: false
+    Name property: email
+        Name column: email
+    Type property: String
+        Type column: varchar(50)
+    Have relationship: false
+    --------------
+    Full line: store_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: storeId
+        Name column: store_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_staff_store : table = store column = store_id
+    --------------
+    Full line: active tinyint(1) NOT NULL DEFAULT '1'
+    Key: false
+    Name property: active
+        Name column: active
+    Type property: Boolean
+        Type column: tinyint(1)
+    Have relationship: false
+    --------------
+    Full line: username varchar(16) NOT NULL
+    Key: false
+    Name property: username
+        Name column: username
+    Type property: String
+        Type column: varchar(16)
+    Have relationship: false
+    --------------
+    Full line: password varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+    Key: false
+    Name property: password
+        Name column: password
+    Type property: String
+        Type column: varchar(40)
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    staff_id tinyint unsigned NOT NULL AUTO_INCREMENT,
+    first_name varchar(45) NOT NULL,
+    last_name varchar(45) NOT NULL,
+    address_id smallint unsigned NOT NULL,
+    picture blob,
+    email varchar(50) DEFAULT NULL,
+    store_id tinyint unsigned NOT NULL,
+    active tinyint(1) NOT NULL DEFAULT '1',
+    username varchar(16) NOT NULL,
+    password varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (staff_id)
+    CONSTRAINT fk_staff_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_staff_store FOREIGN KEY (store_id) REFERENCES store (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
+
+======================= No: 16 ==================================
+Table name: store
+Class name: Store
+Single key: true
+Properties:
+    --------------
+    Full line: store_id tinyint unsigned NOT NULL AUTO_INCREMENT
+    Key: true
+    Name property: storeId
+        Name column: store_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: false
+    --------------
+    Full line: manager_staff_id tinyint unsigned NOT NULL
+    Key: false
+    Name property: managerStaffId
+        Name column: manager_staff_id
+    Type property: Integer
+        Type column: tinyint
+    Have relationship: true
+        Foregin: fk_store_staff : table = staff column = staff_id
+    --------------
+    Full line: address_id smallint unsigned NOT NULL
+    Key: false
+    Name property: addressId
+        Name column: address_id
+    Type property: Integer
+        Type column: smallint
+    Have relationship: false
+    --------------
+    Full line: last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Key: false
+    Name property: lastUpdate
+        Name column: last_update
+    Type property: Date
+        Type column: timestamp
+    Have relationship: false
+Data sql:
+    store_id tinyint unsigned NOT NULL AUTO_INCREMENT,
+    manager_staff_id tinyint unsigned NOT NULL,
+    address_id smallint unsigned NOT NULL,
+    last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (store_id)
+    CONSTRAINT fk_store_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_store_staff FOREIGN KEY (manager_staff_id) REFERENCES staff (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
+

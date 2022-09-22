@@ -3,6 +3,8 @@ package snpc.generate.entity.hibernate.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import snpc.generate.entity.hibernate.util.StringUtil;
+
 public class EntityStruct {
 	private int no;
 	private String nameTable;
@@ -16,6 +18,27 @@ public class EntityStruct {
 
 	public void appendProperties(PropertiesStruct property) {
 		this.properties.add(property);
+	}
+
+	public boolean existKey() {
+		for (PropertiesStruct property : properties)
+			if (property.isKey())
+				return true;
+		return false;
+	}
+
+	public PropertiesStruct findKeyIfSingleKey() {
+		if (this.singleKey == false)
+			return null;
+		for (PropertiesStruct property : properties) {
+			if (property.isKey())
+				return property;
+		}
+		return null;
+	}
+
+	public String getNameClassProperty() {
+		return StringUtil.lowerFirstLetter(this.nameClass);
 	}
 
 	public String getNameTable() {
@@ -95,6 +118,10 @@ public class EntityStruct {
 //		}
 		for (PropertiesStruct pro : this.properties) {
 			buffer.append(pro.toString());
+		}
+		buffer.append("Data sql:\n");
+		for (String lineSql : this.fullData) {
+			buffer.append("    "+lineSql + "\n");
 		}
 		return buffer.toString();
 	}

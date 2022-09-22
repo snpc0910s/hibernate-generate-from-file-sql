@@ -26,4 +26,9 @@ public class StringUtil {
 		c[0] += 32;
 		return new String(c);
 	}
+	public static String lowerFirstLetter(String name) {
+		char c[] = name.toCharArray();
+		c[0] += 32;
+		return new String(c);
+	}
 }

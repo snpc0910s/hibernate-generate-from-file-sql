@@ -74,7 +74,17 @@ public class PropertiesStruct {
 		buffer.append(tab + "}\n");
 		return buffer.toString();
 	}
-
+	public String getNameMethodSet() {
+		return "set"+StringUtils.capitalize(this.nameProperty);
+	}
+	public String getNameMethodGet() {
+		if (this.nameProperty == "Boolean") {
+			return "is"+ StringUtils.capitalize(this.nameProperty);
+		}
+		else {
+			return "get"+ StringUtils.capitalize(this.nameProperty);
+		}
+	}
 	public boolean isKey() {
 		return isKey;
 	}
