@@ -13,6 +13,7 @@ import snpc.generate.entity.hibernate.generator.IContentGenerator;
 import snpc.generate.entity.hibernate.generator.ModelGenerator;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 import snpc.generate.entity.hibernate.util.ExportFileUtil;
+//import snpc.generate.entity.hibernate.util.ExportFileUtil;
 import snpc.generate.entity.hibernate.util.PreprocessFileUtil;
 
 public class GenerateMain {
@@ -29,9 +30,9 @@ public class GenerateMain {
 		/**
 		 * PARAM
 		 */
-		String urlFileSQL = "C:\\Users\\Admin\\Documents\\dumps\\Dump20220919.sql"; // current gen only mysql export
+		String urlFileSQL = "D:\\CODE_\\hibernate-generate-from-file-sql\\src\\main\\resources\\file-sql-export-from-database.sql"; // current gen only mysql export
 																					// from database
-		String urlFolder = "C:\\Users\\Admin\\Desktop\\temp\\export_code";
+		String urlFolder = "D:\\CODE_\\temp_";
 		String basePackage = "com.example.demo";
 
 		/**
@@ -112,7 +113,7 @@ public class GenerateMain {
 					continue;
 				}
 				String nameFile = prefixNameFile + entity.getNameClass() + suffixNameFile + ".java";
-//				ExportFileUtil.exportDataToFolder(urlFolderContent, nameFile, content);
+				ExportFileUtil.exportDataToFolder(urlFolderContent, nameFile, content);
 //				System.out.println(content);
 			}
 			// 3. reset generator
