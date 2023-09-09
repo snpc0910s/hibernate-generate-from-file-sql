@@ -6,6 +6,7 @@ import java.util.List;
 import snpc.generate.entity.hibernate.generator.ContentBasicApiGenerator;
 import snpc.generate.entity.hibernate.generator.ContentEntityDTOGenerator;
 import snpc.generate.entity.hibernate.generator.ContentEntityGenerator;
+import snpc.generate.entity.hibernate.generator.ContentEntityRelationshipGenerator;
 import snpc.generate.entity.hibernate.generator.ContentIntefaceServiceGenerator;
 import snpc.generate.entity.hibernate.generator.ContentRepoGenerator;
 import snpc.generate.entity.hibernate.generator.ContentServiceGenerator;
@@ -19,6 +20,7 @@ import snpc.generate.entity.hibernate.util.PreprocessFileUtil;
 public class GenerateMain {
 
 	private static final String TASK_ENTITY = "entity";
+	private static final String TASK_ENTITY_RELATIONSHIP = "entity_relationship";
 	private static final String TASK_DTO = "dto";
 	private static final String TASK_REPO = "repo";
 	private static final String TASK_I_SERVICES = "iservices";
@@ -39,15 +41,16 @@ public class GenerateMain {
 		 * LIST TASK
 		 */
 		List<String> taskExports = new ArrayList<>();
-		taskExports.add(TASK_ENTITY);
-//		taskExports.add(TASK_DTO);
-//		taskExports.add(TASK_REPO);
-//		taskExports.add(TASK_I_SERVICES);
-//		taskExports.add(TASK_SERVICES);
-//		taskExports.add(TASK_CONTROLLER);
+		// taskExports.add(TASK_ENTITY);
+		 taskExports.add(TASK_ENTITY_RELATIONSHIP);
+		// taskExports.add(TASK_DTO);
+		// taskExports.add(TASK_REPO);
+		// taskExports.add(TASK_I_SERVICES);
+		// taskExports.add(TASK_SERVICES);
+		// taskExports.add(TASK_CONTROLLER);
 
 		/**
-		 * PREPROCESSING NOTE: current support only file sql export from mysql workbench. If you want change please read code :D
+		 * PREPROCESSING NOTE: current support only file sql export from mysql. you can see example file in 'resources'. If you want change please read code :D
 		 */
 		List<String> lines = PreprocessFileUtil.preprocessFileSQL(urlFileSQL);
 //		SEE FILE resource/file-sql-after-preprocessing.txt
@@ -67,6 +70,10 @@ public class GenerateMain {
 			switch (task) {
 			case TASK_ENTITY:
 				generator = new ContentEntityGenerator();
+				urlFolderContent += "\\" + TASK_ENTITY;
+				break;
+			case TASK_ENTITY_RELATIONSHIP:
+				generator = new ContentEntityRelationshipGenerator();
 				urlFolderContent += "\\" + TASK_ENTITY;
 				break;
 			case TASK_DTO:
@@ -114,7 +121,7 @@ public class GenerateMain {
 				}
 				String nameFile = prefixNameFile + entity.getNameClass() + suffixNameFile + ".java";
 				ExportFileUtil.exportDataToFolder(urlFolderContent, nameFile, content);
-//				System.out.println(content);
+				//System.out.println(content);
 			}
 			// 3. reset generator
 			generator = null;

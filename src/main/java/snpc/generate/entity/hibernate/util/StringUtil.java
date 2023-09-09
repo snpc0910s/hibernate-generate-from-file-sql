@@ -26,6 +26,16 @@ public class StringUtil {
 		c[0] += 32;
 		return new String(c);
 	}
+	public static String nameToNamePropertiesButRemoveEndId(String name){
+		String afterChange = nameToNameProperties(name);
+		if(afterChange.endsWith("Id")) {
+			return afterChange.substring(0, afterChange.length() - 2);
+		} else if(afterChange.endsWith("Ids"))  {
+			return afterChange.substring(0, afterChange.length() - 3);
+		}
+		return afterChange;
+	}
+
 	public static String lowerFirstLetter(String name) {
 		char c[] = name.toCharArray();
 		c[0] += 32;

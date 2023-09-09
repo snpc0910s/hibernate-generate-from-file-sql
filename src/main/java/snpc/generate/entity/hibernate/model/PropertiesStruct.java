@@ -8,15 +8,18 @@ import snpc.generate.entity.hibernate.util.StringUtil;
 
 public class PropertiesStruct {
 	private boolean isKey = false;
+
 	private String nameColumn;
 	private String nameProperty;
 	private String columnType;
 	private String typeProperty;
 	private String lengthTypel;
+
 	private boolean haveRelationShip = false;
 	private String relationshipName;
 	private String relationshipWithTable;
 	private String relationshipWithTableColumn;
+	
 	private String fullStringLine;
 
 	public static PropertiesStruct createFromLine(String line, IMapperType mapperType) {
@@ -58,22 +61,41 @@ public class PropertiesStruct {
 				tab = tab + "    ";
 		}
 		StringBuffer buffer = new StringBuffer();
-		// get
-		if (this.nameProperty == "Boolean") {
-			buffer.append(tab + "public " + this.typeProperty + " is"+StringUtils.capitalize(this.nameProperty)+"() {\n");
-			buffer.append(tab + "    return " + this.nameProperty + ";\n");
+
+	
+			// get
+			if (this.nameProperty == "Boolean") {
+				buffer.append(tab + "public " + this.typeProperty + " is"+StringUtils.capitalize(this.nameProperty)+"() {\n");
+				buffer.append(tab + "    return " + this.nameProperty + ";\n");
+				buffer.append(tab + "}\n");
+			} else {
+				buffer.append(tab + "public " + this.typeProperty + " get"+StringUtils.capitalize(this.nameProperty)+"() {\n");
+				buffer.append(tab + "    return " + this.nameProperty + ";\n");
+				buffer.append(tab + "}\n");
+			}
+			// set
+			buffer.append(tab + "public void set" + StringUtils.capitalize(this.nameProperty) + "(" + this.typeProperty + " "+ this.nameProperty + ") {\n");
+			buffer.append(tab + "    this." + this.nameProperty + " = " + this.nameProperty + ";\n");
 			buffer.append(tab + "}\n");
-		} else {
-			buffer.append(tab + "public " + this.typeProperty + " get"+StringUtils.capitalize(this.nameProperty)+"() {\n");
-			buffer.append(tab + "    return " + this.nameProperty + ";\n");
-			buffer.append(tab + "}\n");
+
+		return buffer.toString();
+	}
+	public String genGetterAndSetterCaseHaveRelationship(int levelTab) {
+		String tab = "    ";
+		if(levelTab != 1) {
+			for(int i  = 1 ; i < levelTab ; i++)
+				tab = tab + "    ";
 		}
-		// set
-		buffer.append(tab + "public void set" + StringUtils.capitalize(this.nameProperty) + "(" + this.typeProperty + " "+ this.nameProperty + ") {\n");
-		buffer.append(tab + "    this." + this.nameProperty + " = " + this.nameProperty + ";\n");
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(tab + "public "+StringUtil.nameToNameClass(relationshipWithTable)+" get"+StringUtil.nameToNameClass(StringUtil.nameToNamePropertiesButRemoveEndId(nameProperty))+"() {\n");
+		buffer.append(tab + "    return "+StringUtil.nameToNamePropertiesButRemoveEndId(nameProperty)+";\n");
+		buffer.append(tab + "}\n");
+		buffer.append(tab + "public void set"+StringUtil.nameToNameClass(StringUtil.nameToNamePropertiesButRemoveEndId(nameProperty))+"("+StringUtil.nameToNameClass(relationshipWithTable)+" "+StringUtil.nameToNamePropertiesButRemoveEndId(nameProperty)+") {\n");
+		buffer.append(tab + "    this."+StringUtil.nameToNamePropertiesButRemoveEndId(nameProperty)+" = "+StringUtil.nameToNamePropertiesButRemoveEndId(nameProperty)+";\n");
 		buffer.append(tab + "}\n");
 		return buffer.toString();
 	}
+	
 	public String getNameMethodSet() {
 		return "set"+StringUtils.capitalize(this.nameProperty);
 	}

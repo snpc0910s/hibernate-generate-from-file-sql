@@ -21,7 +21,7 @@ public class ModelGenerator {
 	
 	public static List<EntityStruct> generateFromMySql(List<String> lines) {
 		Map<String, EntityStruct> mapResult = new HashMap<>();
-		Map<String, String> mapConstraint = new HashMap<>();
+		Map<String, List<String>> mapConstraint = new HashMap<>();
 		int no = 1;
 		String currentTable = "";
 		// first line must "CREATE TABLE"
@@ -64,8 +64,14 @@ public class ModelGenerator {
 			}
 			// 3. constraint
 			if (line.startsWith("CONSTRAINT")) {
-				// tam thoi bo qua. phai tao stack roi add sau
-				mapConstraint.put(currentTable, line);
+				// add all stack constraint
+				if(mapConstraint.containsKey(currentTable)) {
+					mapConstraint.get(currentTable).add(line);
+				}else {
+					List<String> newListContraint = new ArrayList<>();
+					newListContraint.add(line);
+					mapConstraint.put(currentTable,newListContraint);
+				}
 				mapResult.get(currentTable).getFullData().add(line);
 				continue;
 			}
@@ -80,30 +86,53 @@ public class ModelGenerator {
 			entity.appendProperties(PropertiesStruct.createFromLine(line, mysqlMapperType));
 		}
 		// 5. modify constraint
-		for (Map.Entry<String, String> entry : mapConstraint.entrySet()) {
+		for (Map.Entry<String, List<String>> entry : mapConstraint.entrySet()) {
 			String nameTable = entry.getKey();
-			String constraint = entry.getValue();
-			mapResult.get(nameTable).getConstraints().add(constraint);
-			// set constraint
-			// 5.1 foreign key
-			if(constraint.contains("FOREIGN KEY")) {
-				Matcher matcher = CONSTRAINT_REGEX.matcher(constraint);
-				if(matcher.matches()) {
-					String nameConstraint = matcher.group("constranitname");
-					String columnName = matcher.group("columnname");
-					String tableRefer = matcher.group("tablerefer");
-					String columnRefer = matcher.group("columnrerefer");
-					EntityStruct entity = mapResult.get(nameTable);
-					for(PropertiesStruct property: entity.getProperties()) {
-						if(property.getNameColumn().equals(columnName)) {
-							property.setRelationshipName(nameConstraint);
-							property.setHaveRelationShip(true);
-							property.setRelationshipWithTable(tableRefer);
-							property.setRelationshipWithTableColumn(columnRefer);
+			List<String> constraints = entry.getValue();
+
+			for (String constraint : constraints) {
+				mapResult.get(nameTable).getConstraints().add(constraint);
+				// set constraint
+				// 5.1 foreign key
+				if(constraint.contains("FOREIGN KEY")) {
+					Matcher matcher = CONSTRAINT_REGEX.matcher(constraint);
+					if(matcher.matches()) {
+						String nameConstraint = matcher.group("constranitname");
+						String columnName = matcher.group("columnname");
+						String tableRefer = matcher.group("tablerefer");
+						String columnRefer = matcher.group("columnrerefer");
+						EntityStruct entity = mapResult.get(nameTable);
+						for(PropertiesStruct property: entity.getProperties()) {
+							if(property.getNameColumn().equals(columnName)) {
+								property.setRelationshipName(nameConstraint);
+								property.setHaveRelationShip(true);
+								property.setRelationshipWithTable(tableRefer);
+								property.setRelationshipWithTableColumn(columnRefer);
+							}
 						}
+						// update one to many to parent table
+						String nameClassChild= StringUtil.nameToNameClass(nameTable);
+						String namePropertyChild = StringUtil.nameToNameProperties("lst" + nameClassChild);
+						// if exist 1 one to many to parent table/ It's mean if exist more columns have reference to 1 table -> increment name properties. ex: lstLanguage -> lstLanguage1
+						int count = 0;
+						for(PropertiesStruct tPro : mapResult.get(tableRefer).getExtendProperties()) {
+							if(tPro.getNameProperty().equals(namePropertyChild)) {
+								count++;
+							}
+						}
+						if(count != 0) 
+							namePropertyChild = namePropertyChild + count;
+						PropertiesStruct propertyExtend = new PropertiesStruct();
+						propertyExtend.setFullStringLine("From Table: "+ nameTable + " -- " + constraint);
+						propertyExtend.setNameColumn(columnName);
+						propertyExtend.setTypeProperty("List<"+nameClassChild+">");
+						propertyExtend.setNameProperty(namePropertyChild);
+						mapResult.get(tableRefer).getExtendProperties().add(propertyExtend);
 					}
 				}
 			}
+
+			
 			
 		}
 		

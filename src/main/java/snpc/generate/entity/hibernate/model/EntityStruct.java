@@ -119,10 +119,19 @@ public class EntityStruct {
 		for (PropertiesStruct pro : this.properties) {
 			buffer.append(pro.toString());
 		}
-		buffer.append("Data sql:\n");
+		buffer.append("\nConstraint:\n");
+		for(String constraint : this.constraints) {
+			buffer.append(constraint + "\n");
+		}
+		buffer.append("\nData sql:\n");
 		for (String lineSql : this.fullData) {
 			buffer.append("    "+lineSql + "\n");
 		}
+		buffer.append("\nProperties Extend (support entity relationship):\n");
+		for (PropertiesStruct pro : this.extendProperties) {
+			buffer.append(pro.toString());
+		}
+		
 		return buffer.toString();
 	}
 
