@@ -50,6 +50,8 @@ public class ContentRepoGenerator implements IContentGenerator {
 		buffer.append("\n");
 		buffer.append("import org.springframework.data.jpa.repository.JpaRepository;\n");
 		buffer.append("import org.springframework.stereotype.Repository;\n");
+		buffer.append("import org.springframework.data.domain.Page;\n");
+		buffer.append("import org.springframework.data.domain.Pageable;\n");
 		buffer.append("\n");
 		buffer.append("import " + basePackage + ".entity." + entity.getNameClass() + ";\n");
 		if (entity.isSingleKey() == false) {
@@ -58,8 +60,9 @@ public class ContentRepoGenerator implements IContentGenerator {
 		}
 		buffer.append("\n");
 		buffer.append("@Repository\n");
-		buffer.append("public interface " + entity.getNameClass() + "Repository extends JpaRepository<"
-				+ entity.getNameClass() + "," + typeId + ">{\n");
+		buffer.append("public interface " + entity.getNameClass() + "Repository extends JpaRepository<"+ entity.getNameClass() + "," + typeId + ">{\n");
+		buffer.append("    @Query(value = \"select "+entity.getNameClass().substring(0, 1).toLowerCase()+" from "+entity.getNameClass()+" "+entity.getNameClass().substring(0, 1).toLowerCase()+"\")\n");
+		buffer.append("    Page<"+entity.getNameClass()+"> findAll(Pageable pageable);\n");
 		buffer.append("}\n");
 		return buffer.toString();
 	}
