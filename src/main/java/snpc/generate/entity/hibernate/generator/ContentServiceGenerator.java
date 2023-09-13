@@ -93,7 +93,7 @@ public class ContentServiceGenerator implements IContentGenerator {
 		buffer.append("import org.springframework.transaction.annotation.Transactional;\n");
 		buffer.append("\n");
 		buffer.append("import "+basePackage+".entity."+NAME_CLASS+";\n");
-		buffer.append("import "+basePackage+".repo."+NAME_CLASS+"Repo;\n");
+		buffer.append("import "+basePackage+".repo."+NAME_CLASS+"Repository;\n");
 		buffer.append("import "+basePackage+".services.I"+NAME_CLASS+"Service;\n");
 		buffer.append("\n");
 		buffer.append("@Service\n");
@@ -101,7 +101,7 @@ public class ContentServiceGenerator implements IContentGenerator {
 		buffer.append("\n");
 		// declare repo
 		buffer.append("    @Autowired\n");
-		buffer.append("    private "+NAME_CLASS+"Repo "+NAME_CLASS_PROPERTIES+"Repo;\n");
+		buffer.append("    private "+NAME_CLASS+"Repository "+NAME_CLASS_PROPERTIES+"Repo;\n");
 		buffer.append("\n");
 		// main function: find all
 		buffer.append("    @Transactional(readOnly = true)\n");

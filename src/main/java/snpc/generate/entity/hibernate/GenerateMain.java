@@ -42,7 +42,7 @@ public class GenerateMain {
 		 */
 		List<String> taskExports = new ArrayList<>();
 		// taskExports.add(TASK_ENTITY);
-		 taskExports.add(TASK_ENTITY_RELATIONSHIP);
+		taskExports.add(TASK_ENTITY_RELATIONSHIP);
 		// taskExports.add(TASK_DTO);
 		// taskExports.add(TASK_REPO);
 		// taskExports.add(TASK_I_SERVICES);

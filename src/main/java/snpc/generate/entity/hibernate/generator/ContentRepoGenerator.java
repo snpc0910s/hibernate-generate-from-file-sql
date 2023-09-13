@@ -57,7 +57,7 @@ public class ContentRepoGenerator implements IContentGenerator {
 		}
 		buffer.append("\n");
 		buffer.append("@Repository\n");
-		buffer.append("public interface " + entity.getNameClass() + "Repo extends JpaRepository<"
+		buffer.append("public interface " + entity.getNameClass() + "Repository extends JpaRepository<"
 				+ entity.getNameClass() + "," + typeId + ">{\n");
 		buffer.append("}\n");
 		return buffer.toString();

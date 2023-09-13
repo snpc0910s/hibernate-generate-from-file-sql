@@ -44,7 +44,7 @@ public class ContentEntityRelationshipGenerator implements IContentGenerator{
 			private String district;
 
 
-			@ManyToOne
+			@ManyToOne(fetch = FetchType.LAZY)
 			@JoinColumn(name = "city_id")
 			private City city;
 
@@ -180,13 +180,13 @@ public class ContentEntityRelationshipGenerator implements IContentGenerator{
 				@EmbeddedId
 				private FilmCategoryId id;
 
-				@ManyToOne
+				@ManyToOne(fetch = FetchType.LAZY)
 				@MapsId("filmId")
 				@JoinColumn(name = "film_id")
 				private Film film;
 
 
-				@ManyToOne
+				@ManyToOne(fetch = FetchType.LAZY)
 				@MapsId("categoryId")
 				@JoinColumn(name = "category_id")
 				private Category category;
@@ -234,6 +234,7 @@ public class ContentEntityRelationshipGenerator implements IContentGenerator{
 		buffer.append("import java.util.ArrayList;\n");
 		buffer.append("import javax.persistence.Column;\n");
 		buffer.append("import javax.persistence.Entity;\n");
+		buffer.append("import javax.persistence.FetchType;\n");
 		buffer.append("import javax.persistence.Table;\n");
 		buffer.append("import javax.persistence.OneToMany;\n");
 		buffer.append("import javax.persistence.JoinColumn;\n");
@@ -275,7 +276,7 @@ public class ContentEntityRelationshipGenerator implements IContentGenerator{
 				}
 				added = true; // block add twice @EmbeddedId
 				// add @Many to one
-				buffer.append("\n    @ManyToOne\n");
+				buffer.append("\n    @ManyToOne(fetch = FetchType.LAZY)\n");
 				buffer.append("    @MapsId(\""+property.getNameProperty()+"\")\n");
 				buffer.append("    @JoinColumn(name = \""+property.getNameColumn()+"\")\n");
 				buffer.append("    private " + StringUtil.nameToNameClass(property.getRelationshipWithTable()) + " " + StringUtil.nameToNamePropertiesButRemoveEndId(property.getNameProperty()) + ";\n");
@@ -288,7 +289,7 @@ public class ContentEntityRelationshipGenerator implements IContentGenerator{
                 }else {
                     // property.isHaveRelationShip() == true
                     // step 1: add many to one this entity struct
-                    buffer.append("\n    @ManyToOne\n");
+                    buffer.append("\n    @ManyToOne(fetch = FetchType.LAZY)\n");
                     buffer.append("    @JoinColumn(name = \""+property.getNameColumn()+"\")\n");
                     buffer.append("    private " + StringUtil.nameToNameClass(property.getRelationshipWithTable()) + " " + StringUtil.nameToNamePropertiesButRemoveEndId(property.getNameProperty()) + ";\n");
                 }
