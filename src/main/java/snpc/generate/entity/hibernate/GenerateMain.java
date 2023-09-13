@@ -3,15 +3,16 @@ package snpc.generate.entity.hibernate;
 import java.util.ArrayList;
 import java.util.List;
 
-import snpc.generate.entity.hibernate.generator.ContentBasicApiGenerator;
-import snpc.generate.entity.hibernate.generator.ContentEntityDTOGenerator;
-import snpc.generate.entity.hibernate.generator.ContentEntityGenerator;
-import snpc.generate.entity.hibernate.generator.ContentEntityRelationshipGenerator;
-import snpc.generate.entity.hibernate.generator.ContentIntefaceServiceGenerator;
-import snpc.generate.entity.hibernate.generator.ContentRepoGenerator;
-import snpc.generate.entity.hibernate.generator.ContentServiceGenerator;
 import snpc.generate.entity.hibernate.generator.IContentGenerator;
 import snpc.generate.entity.hibernate.generator.ModelGenerator;
+import snpc.generate.entity.hibernate.generator.controller.ContentBasicApiGenerator;
+import snpc.generate.entity.hibernate.generator.dto.ContentEntityDTOGenerator;
+import snpc.generate.entity.hibernate.generator.entity.ContentEntityGenerator;
+import snpc.generate.entity.hibernate.generator.entity.ContentEntityRelationshipGenerator;
+import snpc.generate.entity.hibernate.generator.repository.ContentRepoGenerator;
+import snpc.generate.entity.hibernate.generator.service.ContentIntefaceServiceGenerator;
+import snpc.generate.entity.hibernate.generator.service.ContentServiceGenerator;
+import snpc.generate.entity.hibernate.generator.service.ContentServiceRelationshipGenerator;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 import snpc.generate.entity.hibernate.util.ExportFileUtil;
 //import snpc.generate.entity.hibernate.util.ExportFileUtil;
@@ -25,6 +26,7 @@ public class GenerateMain {
 	private static final String TASK_REPO = "repo";
 	private static final String TASK_I_SERVICES = "iservices";
 	private static final String TASK_SERVICES = "services";
+	private static final String TASK_SERVICES_RELATIONSHIP = "services_relationship";
 	private static final String TASK_CONTROLLER = "controller";
 
 	public static void main(String[] args) {
@@ -34,7 +36,7 @@ public class GenerateMain {
 		 */
 		String urlFileSQL = "D:\\CODE_\\hibernate-generate-from-file-sql\\src\\main\\resources\\file-sql-export-from-database.sql"; // current gen only mysql export
 																					// from database
-		String urlFolder = "D:\\CODE_\\temp_";
+		String urlFolder = "D:\\CODE_\\demo2\\src\\main\\java\\com\\example\\demo";
 		String basePackage = "com.example.demo";
 
 		/**
@@ -42,11 +44,12 @@ public class GenerateMain {
 		 */
 		List<String> taskExports = new ArrayList<>();
 		// taskExports.add(TASK_ENTITY);
-		taskExports.add(TASK_ENTITY_RELATIONSHIP);
+		// taskExports.add(TASK_ENTITY_RELATIONSHIP);
 		// taskExports.add(TASK_DTO);
 		// taskExports.add(TASK_REPO);
-		// taskExports.add(TASK_I_SERVICES);
+		taskExports.add(TASK_I_SERVICES);
 		// taskExports.add(TASK_SERVICES);
+		taskExports.add(TASK_SERVICES_RELATIONSHIP);
 		// taskExports.add(TASK_CONTROLLER);
 
 		/**
@@ -84,7 +87,7 @@ public class GenerateMain {
 			case TASK_REPO:
 				generator = new ContentRepoGenerator();
 				urlFolderContent += "\\" + TASK_REPO;
-				suffixNameFile = "Repo";
+				suffixNameFile = "Repository";
 				break;
 			case TASK_I_SERVICES:
 				generator = new ContentIntefaceServiceGenerator();
@@ -94,6 +97,11 @@ public class GenerateMain {
 				break;
 			case TASK_SERVICES:
 				generator = new ContentServiceGenerator();
+				urlFolderContent += "\\" + TASK_SERVICES + "\\impl";
+				suffixNameFile = "ServiceImpl";
+				break;
+			case TASK_SERVICES_RELATIONSHIP: 
+				generator = new ContentServiceRelationshipGenerator();
 				urlFolderContent += "\\" + TASK_SERVICES + "\\impl";
 				suffixNameFile = "ServiceImpl";
 				break;

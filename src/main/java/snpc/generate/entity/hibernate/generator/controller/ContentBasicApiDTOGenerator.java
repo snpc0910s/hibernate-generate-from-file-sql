@@ -1,5 +1,6 @@
-package snpc.generate.entity.hibernate.generator;
+package snpc.generate.entity.hibernate.generator.controller;
 
+import snpc.generate.entity.hibernate.generator.IContentGenerator;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 
 public class ContentBasicApiDTOGenerator implements IContentGenerator{
