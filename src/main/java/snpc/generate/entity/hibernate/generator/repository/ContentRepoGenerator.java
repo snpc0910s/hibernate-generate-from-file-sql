@@ -1,6 +1,7 @@
 package snpc.generate.entity.hibernate.generator.repository;
 
 import snpc.generate.entity.hibernate.generator.IContentGenerator;
+import snpc.generate.entity.hibernate.generator.OptionalConfig;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 import snpc.generate.entity.hibernate.model.PropertiesStruct;
 
@@ -32,7 +33,7 @@ public class ContentRepoGenerator implements IContentGenerator {
 	}
 	*/
 	@Override
-	public String gen(String basePackage, EntityStruct entity) {
+	public String gen(String basePackage, EntityStruct entity, OptionalConfig config) {
 
 		String typeId = "";
 		if (entity.isSingleKey() == false) {
@@ -44,6 +45,7 @@ public class ContentRepoGenerator implements IContentGenerator {
 				}
 			}
 		}
+		String extendRepoCustom = (config.isHaveTaskDslCustom() == true && entity.isSingleKey() == true) ? ", "+entity.getNameClass()+"RepoCustom": "";
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("package " + basePackage + ".repo;\n");
@@ -52,6 +54,9 @@ public class ContentRepoGenerator implements IContentGenerator {
 		buffer.append("import org.springframework.stereotype.Repository;\n");
 		buffer.append("import org.springframework.data.domain.Page;\n");
 		buffer.append("import org.springframework.data.domain.Pageable;\n");
+		if(config.isHaveTaskDslCustom() == true && entity.isSingleKey() == true) {
+			buffer.append("import com.example.demo.repo.custom."+entity.getNameClass()+"RepoCustom;");
+		}
 		buffer.append("\n");
 		buffer.append("import " + basePackage + ".entity." + entity.getNameClass() + ";\n");
 		if (entity.isSingleKey() == false) {
@@ -60,9 +65,9 @@ public class ContentRepoGenerator implements IContentGenerator {
 		}
 		buffer.append("\n");
 		buffer.append("@Repository\n");
-		buffer.append("public interface " + entity.getNameClass() + "Repository extends JpaRepository<"+ entity.getNameClass() + "," + typeId + ">{\n");
-		buffer.append("    @Query(value = \"select "+entity.getNameClass().substring(0, 1).toLowerCase()+" from "+entity.getNameClass()+" "+entity.getNameClass().substring(0, 1).toLowerCase()+"\")\n");
-		buffer.append("    Page<"+entity.getNameClass()+"> findAll(Pageable pageable);\n");
+		buffer.append("public interface " + entity.getNameClass() + "Repo extends JpaRepository<"+ entity.getNameClass() + "," + typeId + "> "+extendRepoCustom+"{\n");
+//		buffer.append("    @Query(value = \"select "+entity.getNameClass().substring(0, 1).toLowerCase()+" from "+entity.getNameClass()+" "+entity.getNameClass().substring(0, 1).toLowerCase()+"\")\n");
+//		buffer.append("    Page<"+entity.getNameClass()+"> findAll(Pageable pageable);\n");
 		buffer.append("}\n");
 		return buffer.toString();
 	}

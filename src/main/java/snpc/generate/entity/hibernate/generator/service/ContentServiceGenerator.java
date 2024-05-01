@@ -1,6 +1,7 @@
 package snpc.generate.entity.hibernate.generator.service;
 
 import snpc.generate.entity.hibernate.generator.IContentGenerator;
+import snpc.generate.entity.hibernate.generator.OptionalConfig;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 import snpc.generate.entity.hibernate.model.PropertiesStruct;
 
@@ -73,7 +74,7 @@ public class ContentServiceGenerator implements IContentGenerator {
 	}
 	*/
 	@Override
-	public String gen(String basePackage, EntityStruct entity) {
+	public String gen(String basePackage, EntityStruct entity, OptionalConfig config) {
 		/**
 		 * NOT SUPPORT SERVICE FOR TABLE 2 OR MORE KEY
 		 */

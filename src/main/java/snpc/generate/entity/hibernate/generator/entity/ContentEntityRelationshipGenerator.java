@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import snpc.generate.entity.hibernate.generator.IContentGenerator;
+import snpc.generate.entity.hibernate.generator.OptionalConfig;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 import snpc.generate.entity.hibernate.model.PropertiesStruct;
 import snpc.generate.entity.hibernate.util.StringUtil;
@@ -224,7 +225,7 @@ public class ContentEntityRelationshipGenerator implements IContentGenerator{
 			}
 	*/
 	@Override
-	public String gen(String basePackage, EntityStruct entity) {
+	public String gen(String basePackage, EntityStruct entity , OptionalConfig config) {
 		StringBuffer buffer = new StringBuffer();
 
 		// 1. init header

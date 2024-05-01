@@ -105,6 +105,13 @@ public class EntityStruct {
 		this.extendProperties = extendProperties;
 	}
 
+	public boolean existNamePropertiesEqualNameTable() {
+		for(PropertiesStruct pro : this.properties) {
+			if(pro.getNameColumn().equals(this.nameTable)) return true;
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();

@@ -2,14 +2,18 @@ package snpc.generate.entity.hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import snpc.generate.entity.hibernate.generator.IContentGenerator;
 import snpc.generate.entity.hibernate.generator.ModelGenerator;
+import snpc.generate.entity.hibernate.generator.OptionalConfig;
 import snpc.generate.entity.hibernate.generator.controller.ContentBasicApiGenerator;
 import snpc.generate.entity.hibernate.generator.dto.ContentEntityDTOGenerator;
 import snpc.generate.entity.hibernate.generator.entity.ContentEntityGenerator;
 import snpc.generate.entity.hibernate.generator.entity.ContentEntityRelationshipGenerator;
+import snpc.generate.entity.hibernate.generator.repository.ContentRepoCustomGenerator;
 import snpc.generate.entity.hibernate.generator.repository.ContentRepoGenerator;
+import snpc.generate.entity.hibernate.generator.repository.custom.ContentRepoCustomImplGenerator;
 import snpc.generate.entity.hibernate.generator.service.ContentIntefaceServiceGenerator;
 import snpc.generate.entity.hibernate.generator.service.ContentServiceGenerator;
 import snpc.generate.entity.hibernate.generator.service.ContentServiceRelationshipGenerator;
@@ -20,14 +24,16 @@ import snpc.generate.entity.hibernate.util.PreprocessFileUtil;
 
 public class GenerateMain {
 
-	private static final String TASK_ENTITY = "entity";
-	private static final String TASK_ENTITY_RELATIONSHIP = "entity_relationship";
-	private static final String TASK_DTO = "dto";
-	private static final String TASK_REPO = "repo";
-	private static final String TASK_I_SERVICES = "iservices";
-	private static final String TASK_SERVICES = "services";
-	private static final String TASK_SERVICES_RELATIONSHIP = "services_relationship";
-	private static final String TASK_CONTROLLER = "controller";
+	public static final String TASK_ENTITY = "entity";
+	public static final String TASK_ENTITY_RELATIONSHIP = "entity_relationship";
+	public static final String TASK_DTO = "dto";
+	public static final String TASK_REPO = "repo";
+	public static final String TASK_I_REPO_CUSTOM_DSL = "i_repo_custom_dsl";
+	public static final String TASK_IMPL_REPO_CUSTOM_DSL = "impl_repo_custom_dsl";
+	public static final String TASK_I_SERVICES = "iservices";
+	public static final String TASK_SERVICES = "services";
+	public static final String TASK_SERVICES_RELATIONSHIP = "services_relationship";
+	public static final String TASK_CONTROLLER = "controller";
 
 	public static void main(String[] args) {
 
@@ -36,32 +42,6 @@ public class GenerateMain {
 		 */
 		String urlFileSQL = "D:\\CODE_\\hibernate-generate-from-file-sql\\src\\main\\resources\\file-sql-export-from-database.sql"; // current
 																																	// gen
-																																	// only
-																																	// mysql
-																																	// export
-		// from database
-		String urlFolder = "D:\\CODE_\\demo2\\src\\main\\java\\com\\example\\demo";
-		String basePackage = "com.example.demo";
-
-		/**
-		 * LIST TASK
-		 */
-		List<String> taskExports = new ArrayList<>();
-
-		// taskExports.add(TASK_ENTITY);
-		taskExports.add(TASK_ENTITY_RELATIONSHIP);
-
-		// taskExports.add(TASK_DTO);
-
-		taskExports.add(TASK_REPO);
-
-		taskExports.add(TASK_I_SERVICES);
-
-		// taskExports.add(TASK_SERVICES);
-		taskExports.add(TASK_SERVICES_RELATIONSHIP);
-
-		taskExports.add(TASK_CONTROLLER);
-
 		/**
 		 * PREPROCESSING NOTE: current support only file sql export from mysql. you can
 		 * see example file in 'resources'. If you want change please read code :D
@@ -71,18 +51,50 @@ public class GenerateMain {
 		// for (String line : lines) {
 		// 	System.out.println(line);
 		// }
-		List<EntityStruct> entites = ModelGenerator.generateFromMySql(lines);
+		List<EntityStruct> entites = ModelGenerator.generateFromMySql(lines);																															// only
+																																	// mysql
+																																	// export
+		// folder export
+		String urlFolder = "D:\\CODE_\\sakila-spring-boot\\src\\main\\java\\com\\example\\demo";
+		String basePackage = "com.example.demo";
 
-		IContentGenerator generator = null;
+		/**
+		 * LIST TASK
+		 */
+		List<String> taskExports = new ArrayList<>();
+
+		// taskExports.add(TASK_ENTITY);
+//		taskExports.add(TASK_ENTITY_RELATIONSHIP);
+
+		// taskExports.add(TASK_DTO);
+
+		taskExports.add(TASK_REPO);
+		taskExports.add(TASK_I_REPO_CUSTOM_DSL);
+		taskExports.add(TASK_IMPL_REPO_CUSTOM_DSL);
+//		taskExports.add(TASK_I_SERVICES);
+
+		// taskExports.add(TASK_SERVICES);
+//		taskExports.add(TASK_SERVICES_RELATIONSHIP);
+
+//		taskExports.add(TASK_CONTROLLER);
+
+		// Optional config. Normal, it depend on taskExports
+		OptionalConfig config = new OptionalConfig(taskExports);
+		config.setHaveTaskRelationShip(true); // if not exist
+
 		/**
 		 * CREATE FILE FROM TASK
 		 */
+		IContentGenerator generator = null;
 		for (String task : taskExports) {
 
 			// 1.choose generator and exactly folder export
+
+
 			String urlFolderContent = urlFolder;
 			String prefixNameFile = "";
 			String suffixNameFile = "";
+
 			switch (task) {
 				case TASK_ENTITY:
 					generator = new ContentEntityGenerator();
@@ -100,7 +112,18 @@ public class GenerateMain {
 				case TASK_REPO:
 					generator = new ContentRepoGenerator();
 					urlFolderContent += "\\" + TASK_REPO;
-					suffixNameFile = "Repository";
+					suffixNameFile = "Repo";
+					break;
+				case TASK_I_REPO_CUSTOM_DSL:
+					generator = new ContentRepoCustomGenerator();
+					urlFolderContent += "\\" + "repo\\custom";
+					prefixNameFile = "";
+					suffixNameFile = "RepoCustom";
+					break;
+				case TASK_IMPL_REPO_CUSTOM_DSL:
+					generator = new ContentRepoCustomImplGenerator();
+					urlFolderContent += "\\" + "repo\\custom\\impl";
+					suffixNameFile = "RepoCustomImpl";
 					break;
 				case TASK_I_SERVICES:
 					generator = new ContentIntefaceServiceGenerator();
@@ -126,17 +149,17 @@ public class GenerateMain {
 				default:
 					break;
 			}
+
 			// 2. generate file
 			if (generator == null) {
 				System.err.println("Not support other generator " + task);
 				continue;
 			}
 			System.out.println();
-			System.out.println("----------------------------------" + generator.getClass().getSimpleName()
-					+ "------------------------------------------------");
+			System.out.println("----------------------------------" + generator.getClass().getSimpleName() + "------------------------------------------------");
 			for (EntityStruct entity : entites) {
 				// System.out.println(entity.toString());
-				String content = generator.gen(basePackage, entity);
+				String content = generator.gen(basePackage, entity, config);
 				if (content == null || content.equals("")) {
 					System.out.println("Entity name = " + entity.getNameClass() + ", Generator class = "
 							+ generator.getClass().getSimpleName() + "  -- Empty content");

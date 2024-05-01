@@ -1,6 +1,7 @@
 package snpc.generate.entity.hibernate.generator.dto;
 
 import snpc.generate.entity.hibernate.generator.IContentGenerator;
+import snpc.generate.entity.hibernate.generator.OptionalConfig;
 import snpc.generate.entity.hibernate.model.EntityStruct;
 import snpc.generate.entity.hibernate.model.PropertiesStruct;
 
@@ -49,7 +50,7 @@ public class ContentEntityDTOGenerator implements IContentGenerator {
 	*/
 	
 	@Override
-	public String gen(String basePackage, EntityStruct entity) {
+	public String gen(String basePackage, EntityStruct entity , OptionalConfig config) {
 		if(entity.isSingleKey() == false)
 			return "";
 		StringBuffer buffer = new StringBuffer();
